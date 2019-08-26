@@ -14,7 +14,7 @@ public enum HttpMethod {
 	}
 	
 	public String toString() {
-		return "HTTP Method: " + name;
+		return name;
 	}
 
 }

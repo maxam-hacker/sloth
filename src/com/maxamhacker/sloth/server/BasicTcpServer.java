@@ -16,7 +16,7 @@ import com.maxamhacker.sloth.http.HttpResponse;
 
 public class BasicTcpServer {
 	
-	private Class<? extends HttpRequestProcessor> processor;
+	private HttpRequestProcessor processor;
 	
 	private class Worker extends Thread {
 		
@@ -44,7 +44,6 @@ public class BasicTcpServer {
 	            else
 	            	return;
 	            
-
 	            while (reader.ready()) {
 	            	String header = reader.readLine();
 	            	requestHeaders.append(header);
@@ -64,10 +63,12 @@ public class BasicTcpServer {
 	            		requestHeaders.toString(),
 	            		requestBody.toString());
 	            
-	            HttpResponse response = new HttpResponse();
+	            HttpResponse response = new HttpResponse(request);
+	            
+	            processor.handleMessage(request, response);
 	                
-	            //out.write(response.getBytes());
-	            //out.flush();
+	            out.write(response.toString().getBytes());
+	            out.flush();
 	                
 	            socket.close();
 
@@ -78,7 +79,7 @@ public class BasicTcpServer {
 		
 	}
 	
-	public BasicTcpServer withProcessor(Class<? extends HttpRequestProcessor> processor) {
+	public BasicTcpServer withProcessor(HttpRequestProcessor processor) {
 		this.processor = processor;
 		return this;
 	}

@@ -4,20 +4,33 @@ public class HttpRequest {
 	
 	private HttpMethod method;
 	private HttpRequestURI uri;
+	private String httpVersion;
 	
 	public void doLine(String line) {
 		String[] args = line.split(" ");
 		
 		switch (args[0]) {
-		case "GET":
-			method = HttpMethod.GET;
-			break;
-		case "POST":
-			method = HttpMethod.POST;
-			break;
+		
+			case "GET":
+				method = HttpMethod.GET;
+				break;
+				
+			case "POST":
+				method = HttpMethod.POST;
+				break;
 		}
 		
 		uri = new HttpRequestURI(args[1]);
+		
+		httpVersion = args[2];
+	}
+	
+	public HttpRequestURI getUri() {
+		return uri;
+	}
+	
+	public String getHttpVersion() {
+		return httpVersion;
 	}
 
 	public void doHeaders(String headers) {

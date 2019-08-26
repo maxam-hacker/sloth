@@ -7,7 +7,7 @@ public class TheSloth {
 	public static void main(String[] args) {
 		
 		new BasicTcpServer()
-			.withProcessor(EndpointsHandler.class)
+			.withProcessor(new EndpointsHandler())
 			.start("localhost", 7070);
 	}
 	
