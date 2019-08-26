@@ -12,10 +12,11 @@ import java.net.Socket;
 import com.maxamhacker.sloth.http.HttpProcessor;
 import com.maxamhacker.sloth.http.HttpRequest;
 import com.maxamhacker.sloth.http.HttpRequestProcessor;
+import com.maxamhacker.sloth.http.HttpResponse;
 
 public class BasicTcpServer {
 	
-	private Class<HttpRequestProcessor> processor;
+	private Class<? extends HttpRequestProcessor> processor;
 	
 	private class Worker extends Thread {
 		
@@ -77,7 +78,7 @@ public class BasicTcpServer {
 		
 	}
 	
-	public BasicTcpServer withProcessor(Class<HttpRequestProcessor> processor) {
+	public BasicTcpServer withProcessor(Class<? extends HttpRequestProcessor> processor) {
 		this.processor = processor;
 		return this;
 	}
