@@ -28,7 +28,8 @@ cd ..
 
 java \
     -cp ./libs/junit-4.12.jar;\
-    ./src/com/maxamhacker/sloth/*.class;\
-    ./src/com/maxamhacker/sloth/server/*.class;\
-    ./src/com/maxamhacker/sloth/http/*.class \
-    org.junit.runner.JUnitCore com.maxamhacker.sloth.http.HttpProcessorTest
+    ./bin/com/maxamhacker/sloth/*.class;\
+    ./bin/com/maxamhacker/sloth/server/*.class;\
+    ./bin/com/maxamhacker/sloth/http/*.class \
+    org.junit.runner.JUnitCore \
+    com.maxamhacker.sloth.http.HttpProcessorTest
