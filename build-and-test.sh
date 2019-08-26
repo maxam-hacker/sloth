@@ -27,9 +27,6 @@ cd ..
 
 echo "Testing..."
 java \
-    -cp ./libs/junit-4.12.jar;\
-    ./bin/com/maxamhacker/sloth/http/*;\
-    ./bin/com/maxamhacker/sloth/server/*;\
-    ./bin/com/maxamhacker/sloth/* \
+    -classpath "libs/junit-4.12.jar:libs/hamcrest-all-1.3.jar:bin" \
     org.junit.runner.JUnitCore \
     com.maxamhacker.sloth.http.HttpProcessorTest
