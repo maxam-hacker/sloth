@@ -27,4 +27,8 @@ public class HttpRequest {
 	public void doBody(String body) {
 		
 	}
+	
+	public HttpMethod getMethod() {
+		return method;
+	}
 }
