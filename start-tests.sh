@@ -3,7 +3,9 @@ rm -rf \
     ./src/com/maxamhacker/sloth/server/*.class \
     ./src/com/maxamhacker/sloth/http/*.class
 
-javac \
+rm sloth.jar
+
+javac -d bin \
     -cp ./libs/junit-4.12.jar \
     ./src/com/maxamhacker/sloth/*.java \
     ./src/com/maxamhacker/sloth/server/*.java \
@@ -14,11 +16,15 @@ javac \
 #    ./src/com/maxamhacker/sloth/server/*.class \
 #    ./src/com/maxamhacker/sloth/http/*.class
 
+cd ./bin
+
 jar \
-    cf sloth.jar \
-    ./src/com/maxamhacker/sloth/*.class \
-    ./src/com/maxamhacker/sloth/server/*.class \
-    ./src/com/maxamhacker/sloth/http/*.class
+    cfm ../sloth.jar ../MANIFEST.MF \
+    ./com/maxamhacker/sloth/*.class \
+    ./com/maxamhacker/sloth/server/*.class \
+    ./com/maxamhacker/sloth/http/*.class
+
+cd ..
 
 java \
     -cp ./libs/junit-4.12.jar;\
