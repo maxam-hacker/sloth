@@ -25,5 +25,4 @@ java \
     ./src/com/maxamhacker/sloth/*.class;\
     ./src/com/maxamhacker/sloth/server/*.class;\
     ./src/com/maxamhacker/sloth/http/*.class \
-    org.junit.runner.JUnitCore com.maxamhacker.sloth.http.HttpProcessorTest \
-    -Djava.security.policy=./policy.all
+    org.junit.runner.JUnitCore com.maxamhacker.sloth.http.HttpProcessorTest
