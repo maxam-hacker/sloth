@@ -30,6 +30,6 @@ java \
     -cp ./libs/junit-4.12.jar;\
     ./bin/com/maxamhacker/sloth/http/*;\
     ./bin/com/maxamhacker/sloth/server/*;\
-    ./bin/com/maxamhacker/sloth/http/* \
+    ./bin/com/maxamhacker/sloth/* \
     org.junit.runner.JUnitCore \
     com.maxamhacker.sloth.http.HttpProcessorTest
