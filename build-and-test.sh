@@ -1,3 +1,5 @@
+echo "Removing files (if needed)..."
+
 rm -rf \
     ./src/com/maxamhacker/sloth/*.class \
     ./src/com/maxamhacker/sloth/server/*.class \
@@ -5,19 +7,16 @@ rm -rf \
 
 rm sloth.jar
 
+echo "Compiling..."
 javac -d bin \
     -cp ./libs/junit-4.12.jar \
     ./src/com/maxamhacker/sloth/*.java \
     ./src/com/maxamhacker/sloth/server/*.java \
     ./src/com/maxamhacker/sloth/http/*.java
 
-#chmod 777 \
-#    ./src/com/maxamhacker/sloth/*.class \
-#    ./src/com/maxamhacker/sloth/server/*.class \
-#    ./src/com/maxamhacker/sloth/http/*.class
-
 cd ./bin
 
+echo "Jar processing..."
 jar \
     cfm ../sloth.jar ../MANIFEST.MF \
     ./com/maxamhacker/sloth/*.class \
@@ -26,10 +25,11 @@ jar \
 
 cd ..
 
+echo "Testing..."
 java \
     -cp ./libs/junit-4.12.jar;\
-    ./bin/com/maxamhacker/sloth/*.class;\
-    ./bin/com/maxamhacker/sloth/server/*.class;\
-    ./bin/com/maxamhacker/sloth/http/*.class \
+    ./bin/com/maxamhacker/sloth/http/*;\
+    ./bin/com/maxamhacker/sloth/server/*;\
+    ./bin/com/maxamhacker/sloth/http/* \
     org.junit.runner.JUnitCore \
     com.maxamhacker.sloth.http.HttpProcessorTest
