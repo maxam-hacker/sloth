@@ -32,21 +32,24 @@ public class BasicTcpServer {
 		
 		public void run() {
 			
+			HttpRequest request = null;
+			HttpResponse response = null;
+			String requestLine = null;
+            StringBuilder requestHeaders = new StringBuilder();
+            StringBuilder requestBody = new StringBuilder();
+            InputStream in = null;
+            OutputStream out = null;
 			try {
-	            InputStream  in  = socket.getInputStream();
-	            OutputStream out = socket.getOutputStream();
+	            in  = socket.getInputStream();
+	            out = socket.getOutputStream();
 	            
 	            // https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html
-	            String requestLine = null;
-	            StringBuilder requestHeaders = new StringBuilder();
-	            StringBuilder requestBody = new StringBuilder();
-	            
 	            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 	            
 	            if (reader.ready())
-	            	requestLine = reader.readLine();
+	            		requestLine = reader.readLine();
 	            else
-	            	return;
+	            		return;
 	            
 	            while (reader.ready()) {
 	            	String header = reader.readLine();
@@ -62,22 +65,27 @@ public class BasicTcpServer {
 	                	break;
 	            }
 	            
-	            HttpRequest request = HttpProcessor.doRequest(
+	            request = HttpProcessor.doRequest(
 	            		requestLine,
 	            		requestHeaders.toString(),
 	            		requestBody.toString());
 	            
-	            HttpResponse response = new HttpResponse(request);
+	            response = new HttpResponse(request);
 	            
 	            processor.handleMessage(request, response);
-	                
-	            out.write(response.toString().getBytes());
-	            out.flush();
-	                
+	            String responseText = response.toString();
+	            
+	            if (responseText != null) {
+	            		out.write(responseText.getBytes());
+	            		out.flush();
+	            }
+	            
+	            in.close();
+	            out.close();
 	            socket.close();
 
 	        } catch(Exception e) {
-	            System.out.println("Exception : " + e);
+	            System.out.println("Exception in worker: " + e);
 	        }
 		}
 		

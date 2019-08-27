@@ -40,7 +40,7 @@ public class HttpResponse {
 		response.append(httpVersion).append("\u0020");
 		response.append(String.valueOf(status.getCode())).append("\u0020");
 		response.append(status.getDescription()).append("\r\n");
-		
+			
 		headers.entrySet().forEach( header -> {
 			response.append(header.getKey());
 			response.append(":");
@@ -48,9 +48,9 @@ public class HttpResponse {
 			response.append("\r\n");
 		});
 		response.append("\r\n");
-		
+			
 		response.append(body);
-		
+
 		return response.toString();
 	}
 	

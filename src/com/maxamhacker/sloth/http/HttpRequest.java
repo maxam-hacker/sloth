@@ -6,6 +6,10 @@ public class HttpRequest {
 	private HttpRequestURI uri;
 	private String httpVersion;
 	
+	public HttpRequest() {
+		
+	}
+	
 	public void doLine(String line) {
 		String[] args = line.split(" ");
 		
