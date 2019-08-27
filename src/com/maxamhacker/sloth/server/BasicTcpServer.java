@@ -9,9 +9,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.Executors;
-import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import com.maxamhacker.sloth.http.HttpProcessor;
 import com.maxamhacker.sloth.http.HttpRequest;
@@ -22,7 +20,7 @@ public class BasicTcpServer {
 	
 	private HttpRequestProcessor processor;
 	
-	private class Worker extends Thread {
+	private class Worker implements Runnable {
 		
 		private Socket socket;
 		
@@ -119,8 +117,8 @@ public class BasicTcpServer {
 	                    Socket socket = server.accept();
 	                    System.err.println("Client accepted");
 
-	                    new Worker(socket).start();
-	                    //this.threadPoolExecutor.execute(new Worker(socket));
+	                    //new Worker(socket).start();
+	                    this.threadPoolExecutor.execute(new Worker(socket));
 	                }
 	            } catch(Exception e) {
 	                System.out.println("Exception : " + e);
