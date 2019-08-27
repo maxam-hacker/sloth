@@ -33,7 +33,7 @@ java \
 
 java -jar sloth.jar &
 server=$!
-sleep 2
+sleep 1
 
 java \
       -classpath "libs/junit-4.12.jar:libs/hamcrest-all-1.3.jar:libs/system-rules-1.19.0.jar:bin" \

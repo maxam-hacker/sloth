@@ -1,9 +1,6 @@
 package com.maxamhacker.sloth;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.SystemOutRule;
-
 import static org.junit.Assert.assertEquals;
 
 import java.io.BufferedReader;
@@ -13,10 +10,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class TheSlothTest {
-	
-	@Rule
-    public final SystemOutRule systemOutRule = new SystemOutRule().enableLog();
-	
 	
 	@Test
 	public void Test1() {
