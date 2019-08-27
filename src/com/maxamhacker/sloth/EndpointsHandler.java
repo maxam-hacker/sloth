@@ -45,9 +45,14 @@ public class EndpointsHandler extends HttpRequestProcessor {
 				String id = params.get("id");
 				if (id == null || id.isEmpty())
 					return;
-				value = "0";
-				response.setStatus(HttpResponseStatus.OK);
-				response.setBody(String.format("<html><body><text>User: %s, info: %s</text></body></html>", id, value));
+				result = theStorage.getUserValue(id);
+				if (result.status == Storage.Status.OK) {
+					response.setStatus(HttpResponseStatus.OK);
+					response.setBody(String.format("<html><body><text>User: %s, value: %d</text></body></html>", id, result.data));
+				} else if (result.status == Storage.Status.UserNotFound) {
+					response.setStatus(HttpResponseStatus.OK);
+					response.setBody(String.format("<html><body><text>User: %s, NotFound</text></body></html>", id));
+				}
 				break;
 				
 			case "/transfer":
@@ -62,10 +67,28 @@ public class EndpointsHandler extends HttpRequestProcessor {
 				if (delta == null || delta.isEmpty())
 					return;
 				
-				response.setStatus(HttpResponseStatus.OK);
-				response.setBody(String.format(
-						"<html><body><text>Tansferred. From user: %s to user: %s, Sum: %s</text></body></html>",
-						from, to, delta));
+				Storage.Result resultFrom = theStorage.getUserValue(from);
+				Storage.Result resultTo = theStorage.getUserValue(to);
+				
+				if (resultFrom.status == Storage.Status.OK && resultTo.status == Storage.Status.OK) {
+					
+					long valueFrom = (long)resultFrom.data;
+					long valueTo = (long)resultTo.data;
+					
+					if (valueFrom < Long.parseLong(delta)) {
+						response.setStatus(HttpResponseStatus.OK);
+						response.setBody(String.format(
+								"<html><body><text>Not transferred (Limit). From user: %s to user: %s, value: %s</text></body></html>",
+								from, to, delta));
+					} else {
+						theStorage.userDec(from, Long.parseLong(delta));
+						theStorage.userInc(to, Long.parseLong(delta));
+						response.setStatus(HttpResponseStatus.OK);
+						response.setBody(String.format(
+								"<html><body><text>Tansferred. From user: %s to user: %s, value: %s</text></body></html>",
+								from, to, delta));
+					}
+				}
 				break;
 		}
 		
