@@ -9,6 +9,23 @@ public class Storage {
 	
 	AtomicLong IDs = new AtomicLong(1);
 	
+	public enum Status {
+		OK,
+		UserNotFound,
+		UserAlreadyExist,
+		InternalError
+	}
+	
+	public class Result {
+		public Status status;
+		public Object data;
+		
+		public Result(Status status, Object data) {
+			this.status = status;
+			this.data = data;
+		}
+	}
+	
 	private class User {
 		
 		private String id;
@@ -16,10 +33,10 @@ public class Storage {
 		private long value;
 		private Lock valueLock = new ReentrantLock();
 		
-		public User(String id, String name, long value) {
+		public User(String id, String name, String value) {
 			this.id = id;
 			this.name = name;
-			setValue(value);
+			setValue(Long.parseLong(value));
 		}
 		
 		public String getName() {
@@ -27,7 +44,15 @@ public class Storage {
 		}
 		
 		public long getValue() {
-			return this.value;
+			long result = -1;
+			if (valueLock.tryLock()) {
+				try {
+					result = value;
+				} finally {
+					valueLock.unlock();
+				}
+			}
+			return result;
 		}
 		
 		public void setValue(long value) {
@@ -44,38 +69,51 @@ public class Storage {
 	private ConcurrentHashMap<String, User> registry = new ConcurrentHashMap<String, User>();
 	private ConcurrentHashMap<String, User> mirrorForNames = new ConcurrentHashMap<String, User>();
 	
-	public int addUser(String name, long value) {
+	public Result addUser(String name, String value) {
 		
-		if (mirrorForNames.contains(name))
-			return -1;
+		if (mirrorForNames.get(name) != null)
+			return new Result(Status.UserAlreadyExist, null);
 		
 		long id = IDs.incrementAndGet();
 		User newUser = new User(String.valueOf(id), name, value);
 		registry.put(String.valueOf(id), newUser);
 		mirrorForNames.put(name, newUser);
 		
-		return 0;
+		return new Result(Status.OK, String.valueOf(id));
 	}
 	
-	public long getUserValue(String id) {
+	public Result getUserValue(String id) {
 		
-		long value = -1;
+		if (registry.get(id) != null) {
+			long value = registry.get(id).getValue();
+			return new Result(Status.OK, value);
+		}
 		
-		if (registry.contains(id))
-			value = registry.get(id).getValue();
+		return new Result(Status.UserNotFound, null);
 		
-		return value;
 	}
 	
-	public int userInc(String id, long delta) {
+	public Result userInc(String id, long delta) {
 		
-		if (registry.contains(id)) {
+		if (registry.get(id) != null) {
 			User user = registry.get(id);
 			long value = user.getValue() + delta;
 			user.setValue(value);
-			return 0;
+			return new Result(Status.OK, value);
 		}
 		
-		return -1;
+		return new Result(Status.UserNotFound, null);
+	}
+	
+	public Result userDec(String id, long delta) {
+		
+		if (registry.get(id) != null) {
+			User user = registry.get(id);
+			long value = user.getValue() - delta;
+			user.setValue(value);
+			return new Result(Status.OK, value);
+		}
+		
+		return new Result(Status.UserNotFound, null);
 	}
 }

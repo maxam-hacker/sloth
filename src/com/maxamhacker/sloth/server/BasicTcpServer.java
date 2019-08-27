@@ -79,44 +79,62 @@ public class BasicTcpServer {
 		
 	}
 	
+	public class Acceptor extends Thread {
+		
+		private String host;
+		private int port;
+		
+		public Acceptor(String host, int port) {
+			this.host = host;
+			this.port = port;
+		}
+		
+		public void run() {
+			
+			ServerSocket server = null;
+	        try {
+	            try {
+	               
+	                InetAddress addr = InetAddress.getByName(this.host);
+	                server = new ServerSocket(this.port, 0, addr);
+
+	                System.out.println("Server started\n\n");
+
+	                while(true) {
+
+	                    Socket socket = server.accept();
+	                    System.err.println("Client accepted");
+
+	                    new Worker(socket).start();
+	                }
+	            } catch(Exception e) {
+	                System.out.println("Exception : " + e);
+	            }
+	            
+	        } finally {
+	        	
+	            try {
+	                if (server != null)
+	                    server.close();
+	                
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+		}
+		
+	}
+	
 	public BasicTcpServer withProcessor(HttpRequestProcessor processor) {
 		this.processor = processor;
 		return this;
 	}
 	
-	public void start(String host, int port) {
+	public BasicTcpServer start(String host, int port) {
 		
-		ServerSocket server = null;
-        try {
-            try {
-               
-                InetAddress addr = InetAddress.getByName(host);
-                server = new ServerSocket(port, 0, addr);
-
-                System.out.println("Server started\n\n");
-
-                while(true) {
-
-                    Socket socket = server.accept();
-                    System.err.println("Client accepted");
-
-                    new Worker(socket).start();
-                }
-            } catch(Exception e) {
-                System.out.println("Exception : " + e);
-            }
-            
-        } finally {
-        	
-            try {
-                if (server != null)
-                    server.close();
-                
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-		
+		new Acceptor(host, port).start();
+        return this;
 	}
+	
 
 }
