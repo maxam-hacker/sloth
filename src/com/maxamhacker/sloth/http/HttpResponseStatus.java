@@ -2,7 +2,9 @@ package com.maxamhacker.sloth.http;
 
 public enum HttpResponseStatus {
 
+	Continue(100, "Continue"),
 	OK(200, "OK"),
+	PartialContent(206, "Partial Content"),
 	BadRequest(400, "Bad Request");
 	
 	private int code;

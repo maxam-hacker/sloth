@@ -18,11 +18,27 @@ public class HttpRequest {
 			case "POST":
 				method = HttpMethod.POST;
 				break;
+				
+			case "PUT":
+				method = HttpMethod.PUT;
+				break;
+				
+			case "DELETE":
+				method = HttpMethod.DELETE;
+				break;
 		}
 		
 		uri = new HttpRequestURI(args[1]);
 		
 		httpVersion = args[2];
+	}
+	
+	public void doHeaders(String headers) {
+		
+	}
+	
+	public void doBody(String body) {
+		
 	}
 	
 	public HttpRequestURI getUri() {
@@ -31,14 +47,6 @@ public class HttpRequest {
 	
 	public String getHttpVersion() {
 		return httpVersion;
-	}
-
-	public void doHeaders(String headers) {
-		
-	}
-	
-	public void doBody(String body) {
-		
 	}
 	
 	public HttpMethod getMethod() {
