@@ -21,12 +21,16 @@ public class HttpRequestURI {
 			this.uri = new URI(uri);
 			this.path = this.uri.getPath();
 			this.query = this.uri.getQuery();
-			String[] qargs = this.query.split("#");
-			String[] pargs = qargs[0].split("&");
-			for (int idx = 0; idx < pargs.length; idx ++) {
-				String[] keyAndValue = pargs[idx].split("=");
-				params.put(keyAndValue[0], keyAndValue[1]);
-			}				
+			if (query != null) {
+				String[] qargs = this.query.split("#");
+				if (qargs.length > 0) {
+					String[] pargs = qargs[0].split("&");
+					for (int idx = 0; idx < pargs.length; idx ++) {
+						String[] keyAndValue = pargs[idx].split("=");
+						params.put(keyAndValue[0], keyAndValue[1]);
+					}
+				}
+			}
 		} catch (URISyntaxException e) {
 			this.uri = null;
 		}

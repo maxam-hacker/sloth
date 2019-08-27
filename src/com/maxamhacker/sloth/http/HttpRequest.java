@@ -32,7 +32,11 @@ public class HttpRequest {
 				break;
 		}
 		
-		uri = new HttpRequestURI(args[1]);
+		try {
+			uri = new HttpRequestURI(args[1]);
+		} catch(Exception e) {
+			return;
+		}
 		
 		httpVersion = args[2];
 	}

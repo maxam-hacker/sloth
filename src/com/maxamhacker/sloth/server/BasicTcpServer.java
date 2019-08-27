@@ -22,7 +22,7 @@ public class BasicTcpServer {
 	
 	private HttpRequestProcessor processor;
 	
-	private class Worker implements Runnable {
+	private class Worker extends Thread {
 		
 		private Socket socket;
 		
@@ -76,8 +76,8 @@ public class BasicTcpServer {
 	            String responseText = response.toString();
 	            
 	            if (responseText != null) {
-	            		out.write(responseText.getBytes());
-	            		out.flush();
+	            	out.write(responseText.getBytes());
+	            	out.flush();
 	            }
 	            
 	            in.close();
@@ -119,8 +119,8 @@ public class BasicTcpServer {
 	                    Socket socket = server.accept();
 	                    System.err.println("Client accepted");
 
-	                    //new Worker(socket).start();
-	                    this.threadPoolExecutor.execute(new Worker(socket));
+	                    new Worker(socket).start();
+	                    //this.threadPoolExecutor.execute(new Worker(socket));
 	                }
 	            } catch(Exception e) {
 	                System.out.println("Exception : " + e);
