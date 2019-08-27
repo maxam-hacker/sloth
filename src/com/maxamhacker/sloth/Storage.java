@@ -18,8 +18,8 @@ public class Storage {
 		
 		public User(String id, String name, long value) {
 			this.id = id;
-			this.value = value;
 			this.name = name;
+			setValue(value);
 		}
 		
 		public String getName() {
