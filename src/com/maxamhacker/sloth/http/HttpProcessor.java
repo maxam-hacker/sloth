@@ -6,10 +6,15 @@ public class HttpProcessor {
 	
 	public static HttpRequest doRequest(String line, String headers, String body) {
 		
+		if (line == null || line.isEmpty())
+			return null;
+		
 		HttpRequest request = new HttpRequest();
 		request.doLine(line);
-		request.doHeaders(headers);
-		request.doBody(body);
+		if (headers != null && !headers.isEmpty())
+			request.doHeaders(headers);
+		if (body != null && !body.isEmpty())
+			request.doBody(body);
 		
 		return request;
 	}

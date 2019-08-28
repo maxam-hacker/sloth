@@ -7,38 +7,45 @@ public class HttpRequest {
 	private String httpVersion;
 	
 	public HttpRequest() {
-		
 	}
 	
 	public void doLine(String line) {
+		
+		this.method = null;
+		this.uri = null;
+		this.httpVersion = null;
+		
 		String[] args = line.split(" ");
+		
+		if (args.length != 3)
+			return;
 		
 		switch (args[0]) {
 		
 			case "GET":
-				method = HttpMethod.GET;
+				this.method = HttpMethod.GET;
 				break;
 				
 			case "POST":
-				method = HttpMethod.POST;
+				this.method = HttpMethod.POST;
 				break;
 				
 			case "PUT":
-				method = HttpMethod.PUT;
+				this.method = HttpMethod.PUT;
 				break;
 				
 			case "DELETE":
-				method = HttpMethod.DELETE;
+				this.method = HttpMethod.DELETE;
 				break;
 		}
 		
 		try {
-			uri = new HttpRequestURI(args[1]);
+			this.uri = new HttpRequestURI(args[1]);
 		} catch(Exception e) {
-			return;
+			this.uri = null;
 		}
 		
-		httpVersion = args[2];
+		this.httpVersion = args[2];
 	}
 	
 	public void doHeaders(String headers) {
@@ -50,14 +57,14 @@ public class HttpRequest {
 	}
 	
 	public HttpRequestURI getUri() {
-		return uri;
+		return this.uri;
 	}
 	
 	public String getHttpVersion() {
-		return httpVersion;
+		return this.httpVersion;
 	}
 	
 	public HttpMethod getMethod() {
-		return method;
+		return this.method;
 	}
 }
