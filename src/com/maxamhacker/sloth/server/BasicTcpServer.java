@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.Timestamp;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -43,44 +44,56 @@ public class BasicTcpServer {
 	            
 	            // https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html
 	            BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-	            
-	            if (reader.ready())
-	            		requestLine = reader.readLine();
-	            else
-	            		return;
-	            
-	            while (reader.ready()) {
-	            	String header = reader.readLine();
-	            	requestHeaders.append(header);
-	                if (header.length() == 0)
-	                	break;
-	            }
-	            
-	            while (reader.ready()) {
-	            	String body = reader.readLine();
-	            	requestBody.append(body);
-	                if (body.length() == 0)
-	                	break;
-	            }
-	            
-	            request = HttpProcessor.doRequest(
-	            		requestLine,
-	            		requestHeaders.toString(),
-	            		requestBody.toString());
-	            
-	            response = new HttpResponse(request);
-	            
-	            processor.handleMessage(request, response);
-	            String responseText = response.toString();
-	            
-	            if (responseText != null) {
-	            	out.write(responseText.getBytes());
-	            	out.flush();
+	            Timestamp start = new Timestamp(System.currentTimeMillis());
+	            Timestamp current = new Timestamp(System.currentTimeMillis());
+	            while (true) {
+		            if (reader.ready()) {
+		            		requestLine = reader.readLine();
+		            		current = start;
+		            } else {
+		            		current = new Timestamp(System.currentTimeMillis());
+		            		if (current.getTime() - start.getTime() >= 2500) {
+		            			break;
+		            		} else {
+		            			continue;
+		            		}
+		            }
+		            
+		            while (reader.ready()) {
+		            	String header = reader.readLine();
+		            	requestHeaders.append(header);
+		                if (header.length() == 0)
+		                	break;
+		            }
+		            
+		            while (reader.ready()) {
+		            	String body = reader.readLine();
+		            	requestBody.append(body);
+		                if (body.length() == 0)
+		                	break;
+		            }
+		            
+		            request = HttpProcessor.doRequest(
+		            		requestLine,
+		            		requestHeaders.toString(),
+		            		requestBody.toString());
+		            
+		            response = new HttpResponse(request);
+		            
+		            processor.handleMessage(request, response);
+		            String responseText = response.toString();
+		            
+		            if (responseText != null) {
+			            	out.write(responseText.getBytes());
+			            	out.flush();
+			            start = new Timestamp(System.currentTimeMillis());
+		            }
 	            }
 	            
 	            in.close();
 	            out.close();
 	            socket.close();
+	            System.out.println("Client is closed");
 
 	        } catch(Exception e) {
 	            System.out.println("Exception in worker: " + e);
