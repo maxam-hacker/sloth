@@ -9,7 +9,7 @@ rm sloth.jar
 
 echo "Compiling..."
 javac -d bin \
-    -cp ./libs/junit-4.12.jar:libs/system-rules-1.19.0.jar \
+    -cp ./libs/junit-4.12.jar:libs/system-rules-1.19.0.jar:libs/httpcore-4.4.11.jar:libs/httpclient-4.5.9.jar \
     ./src/com/maxamhacker/sloth/*.java \
     ./src/com/maxamhacker/sloth/server/*.java \
     ./src/com/maxamhacker/sloth/http/*.java
@@ -27,7 +27,7 @@ cd ..
 
 echo "Testing..."
 java \
-    -classpath "libs/junit-4.12.jar:libs/hamcrest-all-1.3.jar:bin" \
+    -classpath "libs/junit-4.12.jar:libs/hamcrest-all-1.3.jar:libs/httpcore-4.4.11.jar:libs/httpclient-4.5.9.jar:bin" \
     org.junit.runner.JUnitCore \
     com.maxamhacker.sloth.http.HttpProcessorTest
 
@@ -36,7 +36,7 @@ server=$!
 sleep 1
 
 java \
-      -classpath "libs/junit-4.12.jar:libs/hamcrest-all-1.3.jar:libs/system-rules-1.19.0.jar:bin" \
+      -classpath "libs/junit-4.12.jar:libs/hamcrest-all-1.3.jar:libs/system-rules-1.19.0.jar:libs/httpcore-4.4.11.jar:libs/httpclient-4.5.9.jar:libs/commons-logging-1.2.jar:bin" \
       org.junit.runner.JUnitCore \
       com.maxamhacker.sloth.TheSlothTest
 
