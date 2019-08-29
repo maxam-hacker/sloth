@@ -77,6 +77,8 @@ public class BasicTcpServer {
 		            		requestLine,
 		            		requestHeaders.toString(),
 		            		requestBody.toString());
+		            if (request == null)
+		            		continue;
 		            
 		            response = new HttpResponse(request);
 		            

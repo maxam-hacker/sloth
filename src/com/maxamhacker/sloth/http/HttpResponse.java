@@ -4,24 +4,28 @@ import java.util.LinkedHashMap;
 
 public class HttpResponse {
 	
-	private String method;
 	private HttpResponseStatus status;
 	private String httpVersion;
-	private LinkedHashMap<String, String> headers = new LinkedHashMap();
+	private LinkedHashMap<String, String> headers;
 	private String body;
-
-	public HttpResponse(HttpRequest request) {
-		
-		method = request.getMethod().toString();
+	
+	public HttpResponse() {
 		status = HttpResponseStatus.BadRequest;
-		httpVersion = request.getHttpVersion();
-		
+		httpVersion = "HTTP/1.1";
+		headers = new LinkedHashMap();
 		headers.put("Server", 			"TheSloth-0.0");
 		headers.put("Content-Type", 		"text/html");
 		headers.put("Content-Length", 	"0");
 		headers.put("Connection", 		"close");
-		
 		body = "";
+	}
+
+	public HttpResponse(HttpRequest request) {
+		this();
+		if (request != null && request.isValid()) {
+			httpVersion = request.getHttpVersion();	
+			status = HttpResponseStatus.NotFound;
+		}
 	}
 	
 	public void setStatus(HttpResponseStatus status) {

@@ -15,6 +15,8 @@ public class HttpProcessor {
 			request.doHeaders(headers);
 		if (body != null && !body.isEmpty())
 			request.doBody(body);
+		if (request.isNotValid())
+			return null;
 		
 		return request;
 	}

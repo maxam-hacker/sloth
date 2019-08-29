@@ -14,9 +14,10 @@ public class HttpRequest {
 		this.method = null;
 		this.uri = null;
 		this.httpVersion = null;
+		if (line == null)
+			return;
 		
 		String[] args = line.split(" ");
-		
 		if (args.length != 3)
 			return;
 		
@@ -66,5 +67,16 @@ public class HttpRequest {
 	
 	public HttpMethod getMethod() {
 		return this.method;
+	}
+	
+	public boolean isValid() {
+		return !isNotValid();
+	}
+	
+	public boolean isNotValid() {
+		if (this.method == null || this.httpVersion == null || this.uri == null)
+			return true;
+		
+		return false;
 	}
 }
