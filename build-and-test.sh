@@ -46,6 +46,11 @@ java \
     org.junit.runner.JUnitCore \
     com.maxamhacker.sloth.EndpointsHandlerTest
 
+java \
+    -classpath "libs/junit-4.12.jar:libs/hamcrest-all-1.3.jar:libs/system-rules-1.19.0.jar:libs/httpcore-4.4.11.jar:libs/httpclient-4.5.9.jar:libs/commons-logging-1.2.jar:bin" \
+    org.junit.runner.JUnitCore \
+    com.maxamhacker.sloth.StorageTest
+
 java -jar sloth.jar &
 server=$!
 sleep 1

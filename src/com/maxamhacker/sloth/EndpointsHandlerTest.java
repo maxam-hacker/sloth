@@ -1,10 +1,9 @@
 package com.maxamhacker.sloth;
 
-import org.junit.Test;
-
 import com.maxamhacker.sloth.http.HttpRequest;
 import com.maxamhacker.sloth.http.HttpResponse;
 
+import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class EndpointsHandlerTest {

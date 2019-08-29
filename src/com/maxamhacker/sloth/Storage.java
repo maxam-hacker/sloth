@@ -71,6 +71,19 @@ public class Storage {
 	
 	public Result addUser(String name, String value) {
 		
+		if (name == null || name.isEmpty() || value == null || value.isEmpty())
+			return new Result(Status.InternalError, null);
+		
+		name = name.replaceAll("[^a-zA-Z0-9]","");
+		if (name == null || name.isEmpty())
+			return new Result(Status.InternalError, null);
+		
+		try {
+			Long.parseLong(value);
+		} catch(Exception e) {
+			return new Result(Status.InternalError, null);
+		}
+		
 		if (mirrorForNames.get(name) != null)
 			return new Result(Status.UserAlreadyExist, null);
 		
@@ -93,11 +106,17 @@ public class Storage {
 		
 	}
 	
-	public Result userInc(String id, long delta) {
+	public Result userInc(String id, String delta) {
+		
+		try {
+			Long.parseLong(delta);
+		} catch(Exception e) {
+			return new Result(Status.InternalError, null);
+		}
 		
 		if (registry.get(id) != null) {
 			User user = registry.get(id);
-			long value = user.getValue() + delta;
+			long value = user.getValue() + Long.parseLong(delta);
 			user.setValue(value);
 			return new Result(Status.OK, value);
 		}
@@ -105,11 +124,17 @@ public class Storage {
 		return new Result(Status.UserNotFound, null);
 	}
 	
-	public Result userDec(String id, long delta) {
+	public Result userDec(String id, String delta) {
+		
+		try {
+			Long.parseLong(delta);
+		} catch(Exception e) {
+			return new Result(Status.InternalError, null);
+		}
 		
 		if (registry.get(id) != null) {
 			User user = registry.get(id);
-			long value = user.getValue() - delta;
+			long value = user.getValue() - Long.parseLong(delta);
 			user.setValue(value);
 			return new Result(Status.OK, value);
 		}

@@ -89,12 +89,12 @@ public class EndpointsHandler extends HttpRequestProcessor {
 								from, to, delta));
 					} else {
 						theStorage.startTransaction();
-						if (theStorage.userDec(from, Long.parseLong(delta)).status != Storage.Status.OK) {
+						if (theStorage.userDec(from, delta).status != Storage.Status.OK) {
 							theStorage.dropTransaction();
 							response.setStatus(HttpResponseStatus.InternalServerError);
 							return;
 						}
-						if (theStorage.userInc(to, Long.parseLong(delta)).status != Storage.Status.OK) {
+						if (theStorage.userInc(to, delta).status != Storage.Status.OK) {
 							theStorage.dropTransaction();
 							response.setStatus(HttpResponseStatus.InternalServerError);
 							return;
