@@ -13,8 +13,13 @@ public class EndpointsHandler extends HttpRequestProcessor {
 
 	public void doGet(HttpRequest request, HttpResponse response) {
 		
+		if (request == null || request.isNotValid() || response == null)
+			return;
+		
 		String path = request.getUri().getPath();
 		HashMap<String, String> params = request.getUri().getParams();
+		if (path == null || params == null)
+			return;
 		
 		switch (path) {
 		
