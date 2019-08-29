@@ -27,10 +27,10 @@ public class EndpointsHandler extends HttpRequestProcessor {
 				String name = params.get("name");
 				String value = params.get("value");
 				
-				if (name == null || name.isEmpty())
+				if (name == null || name.isEmpty() || value == null || value.isEmpty()) {
+					response.setStatus(HttpResponseStatus.MethodNotAllowed);
 					return;
-				if (value == null || value.isEmpty())
-					return;
+				}
 				
 				Storage.Result result = theStorage.addUser(name, value);
 
@@ -48,8 +48,10 @@ public class EndpointsHandler extends HttpRequestProcessor {
 		
 			case "/user":
 				String id = params.get("id");
-				if (id == null || id.isEmpty())
+				if (id == null || id.isEmpty()) {
+					response.setStatus(HttpResponseStatus.MethodNotAllowed);
 					return;
+				}
 				result = theStorage.getUserValue(id);
 				if (result.status == Storage.Status.OK) {
 					response.setStatus(HttpResponseStatus.OK);
@@ -65,12 +67,12 @@ public class EndpointsHandler extends HttpRequestProcessor {
 				String to = params.get("to");
 				String delta = params.get("delta");
 				
-				if (from == null || from.isEmpty())
+				if (from == null || from.isEmpty() || 
+					to == null || to.isEmpty() || 
+					delta == null || delta.isEmpty()) {
+					response.setStatus(HttpResponseStatus.MethodNotAllowed);
 					return;
-				if (to == null || to.isEmpty())
-					return;
-				if (delta == null || delta.isEmpty())
-					return;
+				}
 				
 				Storage.Result resultFrom = theStorage.getUserValue(from);
 				Storage.Result resultTo = theStorage.getUserValue(to);
@@ -95,6 +97,7 @@ public class EndpointsHandler extends HttpRequestProcessor {
 					}
 				}
 				break;
+				
 		}
 		
 	}

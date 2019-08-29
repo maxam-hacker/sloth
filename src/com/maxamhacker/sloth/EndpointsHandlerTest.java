@@ -44,4 +44,16 @@ public class EndpointsHandlerTest {
 		assertEquals(true, response.toString().startsWith("HTTP/1.1 404 Not Found"));
 	}
 	
+	
+	@Test
+	public void Test3() {
+		EndpointsHandler handler = new EndpointsHandler();
+		HttpRequest request = new HttpRequest();
+		request.doLine("GET www.theseniorprogrammer.com/new HTTP/1.1");
+		HttpResponse response = new HttpResponse(request);
+		handler.doGet(request, response);
+		System.out.println(response.toString());
+		assertEquals(true, response.toString().startsWith("HTTP/1.1 405 Method Not Allowed"));
+	}
+	
 }
