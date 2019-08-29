@@ -20,6 +20,8 @@ import com.maxamhacker.sloth.http.HttpResponse;
 public class BasicTcpServer {
 	
 	private HttpRequestProcessor processor;
+	private ThreadPoolExecutor threadPoolExecutor;
+	private Acceptor acceptor;
 	
 	private class Worker implements Runnable {
 		
@@ -108,12 +110,10 @@ public class BasicTcpServer {
 		
 		private String host;
 		private int port;
-		ThreadPoolExecutor threadPoolExecutor;
 		
 		public Acceptor(String host, int port) {
 			this.host = host;
 			this.port = port;
-			this.threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 		}
 		
 		public void run() {
@@ -133,7 +133,7 @@ public class BasicTcpServer {
 	                    System.err.println("Client accepted");
 
 	                    //new Worker(socket).start();
-	                    this.threadPoolExecutor.execute(new Worker(socket));
+	                    threadPoolExecutor.execute(new Worker(socket));
 	                }
 	            } catch(Exception e) {
 	                System.out.println("Exception : " + e);
@@ -160,8 +160,19 @@ public class BasicTcpServer {
 	
 	public BasicTcpServer start(String host, int port) {
 		
-		new Acceptor(host, port).start();
+		this.threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+		this.acceptor = new Acceptor(host, port);
+		this.acceptor.start();
+		
         return this;
+	}
+	
+	public BasicTcpServer stop() {
+		
+		this.acceptor.interrupt();
+		this.threadPoolExecutor.shutdownNow();
+		
+		return this;
 	}
 	
 
