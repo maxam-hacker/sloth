@@ -7,7 +7,8 @@ public enum HttpResponseStatus {
 	PartialContent(206, "Partial Content"),
 	BadRequest(400, "Bad Request"),
 	NotFound(404, "Not Found"),
-	MethodNotAllowed(405, "Method Not Allowed");
+	MethodNotAllowed(405, "Method Not Allowed"),
+	InternalServerError(500, "Internal Server Error");
 	
 	private int code;
 	private String description;

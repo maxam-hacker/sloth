@@ -88,8 +88,18 @@ public class EndpointsHandler extends HttpRequestProcessor {
 								"<html><body><text>Not transferred (Limit). From user: %s to user: %s, value: %s</text></body></html>",
 								from, to, delta));
 					} else {
-						theStorage.userDec(from, Long.parseLong(delta));
-						theStorage.userInc(to, Long.parseLong(delta));
+						theStorage.startTransaction();
+						if (theStorage.userDec(from, Long.parseLong(delta)).status != Storage.Status.OK) {
+							theStorage.dropTransaction();
+							response.setStatus(HttpResponseStatus.InternalServerError);
+							return;
+						}
+						if (theStorage.userInc(to, Long.parseLong(delta)).status != Storage.Status.OK) {
+							theStorage.dropTransaction();
+							response.setStatus(HttpResponseStatus.InternalServerError);
+							return;
+						}
+						theStorage.closeTransaction();
 						response.setStatus(HttpResponseStatus.OK);
 						response.setBody(String.format(
 								"<html><body><text>Tansferred. From user: %s to user: %s, value: %s</text></body></html>",

@@ -116,4 +116,16 @@ public class Storage {
 		
 		return new Result(Status.UserNotFound, null);
 	}
+	
+	public void startTransaction() {
+		
+	}
+	
+	public void closeTransaction() {
+		
+	}
+	
+	public void dropTransaction() {
+		
+	}
 }
