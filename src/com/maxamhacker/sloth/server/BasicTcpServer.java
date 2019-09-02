@@ -75,6 +75,10 @@ public class BasicTcpServer {
 		                	break;
 		            }
 		            
+		            System.out.println(requestLine);
+		            System.out.println(requestHeaders.toString());
+		            System.out.println(requestBody.toString());
+		            
 		            request = HttpProcessor.doRequest(
 		            		requestLine,
 		            		requestHeaders.toString(),

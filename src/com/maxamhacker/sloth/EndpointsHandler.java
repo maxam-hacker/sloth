@@ -23,6 +23,14 @@ public class EndpointsHandler extends HttpRequestProcessor {
 		
 		switch (path) {
 		
+			case "/paths":
+				String project = params.get("project");
+				params.keySet().iterator();
+				if (project.equals("webtorrent")) {
+					
+				}
+				break;
+		
 			case "/new":
 				String name = params.get("name");
 				String value = params.get("value");

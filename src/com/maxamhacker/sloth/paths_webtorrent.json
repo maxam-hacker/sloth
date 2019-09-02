@@ -1,0 +1,32 @@
+{
+	"index.js" : {
+	
+		45: {
+		
+			12: { construction: "super", where : "", start_line : 3, start_column: 4, stop_line: 19, stop_column: 18 },
+			13: { construction: "super", where : "", start_line : 3, start_column: 4, stop_line: 19, stop_column: 18 }
+		},
+		
+		46: {
+		
+			12: { construction: "super", where : "", start_line : 3, start_column: 4, stop_line: 19, stop_column: 18 },
+			13: { construction: "super", where : "", start_line : 3, start_column: 4, stop_line: 19, stop_column: 18 }
+		}
+	},
+	
+	"lib/torrent.js": {},
+	
+	"lib/file.js": {},
+	
+	"lib/file-stream.js": {},
+	
+	"lib/peer.js": {},
+	
+	"lib/webconn.js": {},
+	
+	"lib/tcp-pool.js": {},
+	
+	"lib/server.js": {},
+	
+	"lib/rarity-map.js": {}
+}

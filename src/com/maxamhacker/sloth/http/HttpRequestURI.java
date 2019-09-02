@@ -27,7 +27,10 @@ public class HttpRequestURI {
 					String[] pargs = qargs[0].split("&");
 					for (int idx = 0; idx < pargs.length; idx ++) {
 						String[] keyAndValue = pargs[idx].split("=");
-						params.put(keyAndValue[0], keyAndValue[1]);
+						if (keyAndValue.length == 1)
+							params.put(keyAndValue[0], null);
+						else if (keyAndValue.length >= 2)
+							params.put(keyAndValue[0], keyAndValue[1]);
 					}
 				}
 			}
