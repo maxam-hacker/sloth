@@ -32,6 +32,12 @@ public class HttpResponse {
 		this.status = status;
 	}
 	
+	public void setHeader(String header, String value) {
+		if (headers.containsKey(header))
+			headers.remove(header);
+		headers.put(header, value);
+	}
+	
 	public void setBody(String body) {
 		this.body = body;
 		headers.replace("Content-Length", String.valueOf(body.length()));
