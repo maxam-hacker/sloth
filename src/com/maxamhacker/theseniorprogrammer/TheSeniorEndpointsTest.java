@@ -1,4 +1,4 @@
-package com.maxamhacker.sloth;
+package com.maxamhacker.theseniorprogrammer;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class TheSlothTest {
+public class TheSeniorEndpointsTest {
 	
 	@Test
 	public void Test01() {
@@ -23,7 +23,7 @@ public class TheSlothTest {
 		String responleLine = null;
 		StringBuilder body = new StringBuilder();
 		try {
-			urlCommand = new URL("http://localhost:7070/new?name=andrey&value=100");
+			urlCommand = new URL("http://localhost:17070/topics");
 			System.out.println(urlCommand.toString());
 			response = (HttpURLConnection) urlCommand.openConnection();
 			responleLine = response.getResponseMessage();
@@ -38,7 +38,6 @@ public class TheSlothTest {
 		}
 
 		assertEquals("OK", responleLine);
-		assertEquals("<html><body><text>New User: andrey, id: 2, value: 100</text></body></html>", body.toString());
 	}
 	
 	
@@ -50,7 +49,7 @@ public class TheSlothTest {
 		String responleLine = null;
 		StringBuilder body = new StringBuilder();
 		try {
-			urlCommand = new URL("http://localhost:7070/new?name=andrey&value=100");
+			urlCommand = new URL("http://localhost:17070/topic/spring");
 			System.out.println(urlCommand.toString());
 			response = (HttpURLConnection) urlCommand.openConnection();
 			responleLine = response.getResponseMessage();
@@ -65,10 +64,9 @@ public class TheSlothTest {
 		}
 
 		assertEquals("OK", responleLine);
-		assertEquals("<html><body><text>User: andrey, alredy exist</text></body></html>", body.toString());
 	}
 	
-	
+	/*
 	@Test
 	public void Test03() {
 		
@@ -270,5 +268,6 @@ public class TheSlothTest {
 		assertEquals("HTTP/1.1 200 OK", first);
 		assertEquals("HTTP/1.1 200 OK", second);
 	}
+	*/
 
 }
