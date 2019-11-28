@@ -23,7 +23,7 @@ public class TheSeniorEndpointsTest {
 		String responleLine = null;
 		StringBuilder body = new StringBuilder();
 		try {
-			urlCommand = new URL("http://localhost:17070/topics");
+			urlCommand = new URL("http://localhost:17070/groups");
 			System.out.println(urlCommand.toString());
 			response = (HttpURLConnection) urlCommand.openConnection();
 			responleLine = response.getResponseMessage();
@@ -49,7 +49,7 @@ public class TheSeniorEndpointsTest {
 		String responleLine = null;
 		StringBuilder body = new StringBuilder();
 		try {
-			urlCommand = new URL("http://localhost:17070/topic/spring");
+			urlCommand = new URL("http://localhost:17070/topic?spring");
 			System.out.println(urlCommand.toString());
 			response = (HttpURLConnection) urlCommand.openConnection();
 			responleLine = response.getResponseMessage();

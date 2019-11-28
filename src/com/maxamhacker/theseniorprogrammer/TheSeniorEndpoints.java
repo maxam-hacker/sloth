@@ -20,13 +20,20 @@ public class TheSeniorEndpoints extends HttpRequestProcessor {
 			return;
 		
 		/* Get all available topics */
-		if (path.startsWith("/topics")) {
-			String topics = "spring";
+		if (path.startsWith("/groups")) {
+			String groups = "spring,spring-boot,tomcat,jetty,Java VM,Chrome,V8,Hazelcast,PostgeSQL,Tarantool,ReactJS";
 			response.setStatus(HttpResponseStatus.OK);
-			response.setBody(topics);
+			response.setBody(groups);
 				
 		/* Get content of the topic */
 		} else if (path.startsWith("/topic")) {
+			if (params == null) 
+				return;
+			response.setStatus(HttpResponseStatus.OK);
+			response.setBody("spring-framework, spring-boot, spring-data-commons");
+			
+		/* Get CodeHacker for the topic */
+		} else if (path.startsWith("/codehacker")) {
 			if (params == null) 
 				return;
 			response.setStatus(HttpResponseStatus.OK);
