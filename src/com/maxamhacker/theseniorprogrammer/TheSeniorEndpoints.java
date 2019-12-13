@@ -37,6 +37,7 @@ public class TheSeniorEndpoints extends HttpRequestProcessor {
 		} else if (path.startsWith("/codehacker")) {
 			if (params == null) 
 				return;
+			System.out.println(params.get("topic"));
 			response.setStatus(HttpResponseStatus.OK);
 			response.setBody("spring-framework, spring-boot, spring-data-commons");
 		}
